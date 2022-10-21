@@ -1,0 +1,178 @@
+{% extends "my-form.html" %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+    <script type="text/javascript">
+      function myFunction(ele) {
+          // Get the checkbox
+          id = ele.id
+          console.log("hello")
+          console.log(id)
+          var checkBox = document.getElementById(id);
+          //console.log(document)
+          //console.log(checkBox)
+          // Get the output text
+          tmp = id
+          id2 = tmp+"foo"
+
+          console.log(checkBox)
+          console.log(tmp)
+          console.log(id2)
+          var text = document.getElementById(id2);
+          console.log(text)
+        
+          // If the checkbox is checked, display the output text
+          if (checkBox.checked == true){
+            text.style.display = "block";
+          } else {
+            text.style.display = "none";
+          }
+        }
+      </script>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container">
+  <h2 style="color:blue; text-align:center;" >{{out_data.get('cat')}}</h2>
+    <table class="table header">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Package Name</th>
+            <th scope="col">view Details</th>
+            <th scope="col">Status</th>
+            <th scope="col">Category</th>
+            <th scope="col">Traking</th>
+            <th scope="col">New/Update</th>
+            <th scope="col">Last working Date</th>
+            <th scope="col">Conversion</th>
+            <!-- <th scope="col">Once Converting</th> -->
+            <th scope="col">Name</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        
+        {% for i in out_data.output %}
+        <tbody>
+          {% if out_data.test.get(i)[2] == "TRUE" %}
+          <tr style="background:rgb(32, 187, 42); color:white;">
+            <th scope="row">{{loop.index}}</th>
+            {% if i.isdigit() %}
+            {% if out_data.get('country') %}
+                <td><a style="color:black"; href="https://apps.apple.com/{{out_data.get('country')}}/app/id{{i}}" target="_blank">{{i}}</a></td>
+              {%else%}
+                <td><a style="color:black"; href="https://apps.apple.com/us/app/id{{i}}" target="_blank">{{i}}</a></td>
+            {% endif %}
+          {%else%}
+            <td><a style="color:black"; href="https://play.google.com/store/apps/details?id={{i}}" target="_blank">{{i}}</a></td>
+          {% endif %}
+          <td><a style="color:black"; href ="details?id={{i}}">View Details</a></td>
+            <!-- <td>{{out_data.test.get(i)[0]}}</td> -->
+            <!-- <td>{{out_data.test.get(i)[1]}}</td> -->
+            <td>{{out_data.status.get(i)[0]}}</td>
+            <td>{{out_data.test.get(i)[0]}}</td>
+            <td>{{out_data.test.get(i)[4]}}</td>
+            <td>{{out_data.test.get(i)[5]}}</td>
+            <td>{{out_data.test.get(i)[1]}}</td>
+            {% if out_data.test.get(i)[2] == "Issue" %}
+            <td ><a style="color:red;" href ="issue?id={{i}}"><b>Issue</b></a></td>
+          {% elif out_data.test.get(i)[2] == "TRUE" %}
+              <td ><b>{{out_data.test.get(i)[2]}}</b></td>
+          {%else%}
+            <td>{{out_data.test.get(i)[2]}}</td>
+          {% endif %}
+            <!-- <td>{{out_data.test.get(i)[3]}}</td> -->
+            <td>{{out_data.test.get(i)[6]}}</td>
+            {%set id_1 = i.replace('.','') %}
+            {%set id_2 = id_1+"foo" %}
+            <td><input type="checkbox" id = {{id_1}} onclick="myFunction(this)">
+            <p id={{id_2}} style="display:none">Checkbox is CHECKED!</p></td>
+            <!-- <td>@mdo</td> -->
+          </tr>    
+        <!-- </tbody> -->
+          {% elif out_data.test.get(i)[3] == "TRUE" %}
+          <tr style="background:rgb(128, 224, 227); color:black;">
+            <th scope="row">{{loop.index}}</th>
+            {% if i.isdigit() %}
+            {% if out_data.get('country') %}
+                <td><a style="color:black"; href="https://apps.apple.com/{{out_data.get('country')}}/app/id{{i}}" target="_blank">{{i}}</a></td>
+              {%else%}
+                <td><a style="color:black"; href="https://apps.apple.com/us/app/id{{i}}" target="_blank">{{i}}</a></td>
+            {% endif %}
+          {%else%}
+            <td><a style="color:black"; href="https://play.google.com/store/apps/details?id={{i}}" target="_blank">{{i}}</a></td>
+          {% endif %}
+          <td><a style="color:black"; href ="details?id={{i}}">View Details</a></td>
+            <!-- <td>{{out_data.test.get(i)[0]}}</td> -->
+            <!-- <td>{{out_data.test.get(i)[1]}}</td> -->
+            <td>{{out_data.status.get(i)[0]}}</td>
+            <td>{{out_data.test.get(i)[0]}}</td>
+            <td>{{out_data.test.get(i)[4]}}</td>
+            <td>{{out_data.test.get(i)[5]}}</td>
+            <td>{{out_data.test.get(i)[1]}}</td>
+            {% if out_data.test.get(i)[2] == "Issue" %}
+            <td ><a style="color:red;" href ="issue?id={{i}}"><b>Issue</b></a></td>
+          {% elif out_data.test.get(i)[2] == "TRUE" %}
+              <td ><b>{{out_data.test.get(i)[2]}}</b></td>
+          {%else%}
+            <td>{{out_data.test.get(i)[2]}}</td>
+          {% endif %}
+            <!-- <td>{{out_data.test.get(i)[3]}}</td> -->
+            <td>{{out_data.test.get(i)[6]}}</td>
+            {%set id_1 = i.replace('.','') %}
+            {%set id_2 = id_1+"foo" %}
+            <td><input type="checkbox" id = {{id_1}} onclick="myFunction(this)">
+              <p id={{id_2}} style="display:none">Checkbox is CHECKED!</p></td>
+            <!-- <td>@mdo</td> -->
+          </tr>
+          {%else%}
+          <tr>
+            <th scope="row">{{loop.index}}</th>
+            {% if i.isdigit() %}
+            {% if out_data.get('country') %}
+                <td><a style="color:black";  href="https://apps.apple.com/{{out_data.get('country')}}/app/id{{i}}" target="_blank">{{i}}</a></td>
+              {%else%}
+                <td><a style="color:black";  href="https://apps.apple.com/us/app/id{{i}}" target="_blank">{{i}}</a></td>
+            {% endif %}
+          {%else%}
+            <td><a  style="color:black"; href="https://play.google.com/store/apps/details?id={{i}}" target="_blank">{{i}}</a></td>
+          {% endif %}
+          <td><a style="color:black"; href ="details?id={{i}}">View Details</a></td>
+            <!-- <td>{{out_data.test.get(i)[0]}}</td> -->
+            <!-- <td>{{out_data.test.get(i)[1]}}</td> -->
+            <td>{{out_data.status.get(i)[0]}}</td>
+            <td>{{out_data.test.get(i)[0]}}</td>
+            <td>{{out_data.test.get(i)[4]}}</td>
+            <td>{{out_data.test.get(i)[5]}}</td>
+            <td>{{out_data.test.get(i)[1]}}</td>
+            {% if out_data.test.get(i)[2] == "Issue" %}
+            <td ><a style="color:red;" href ="issue?id={{i}}"><b>Issue</b></a></td>
+          {% elif out_data.test.get(i)[2] == "TRUE" %}
+              <td ><b>{{out_data.test.get(i)[2]}}</b></td>
+          {%else%}
+            <td>{{out_data.test.get(i)[2]}}</td>
+          {% endif %}
+            <!-- <td>{{out_data.test.get(i)[3]}}</td> -->
+            <td>{{out_data.test.get(i)[6]}}</td>
+            {%set id_1 = i.replace('.','') %}
+            {%set id_2 = id_1+"foo" %}
+            <td><input type="checkbox" id = {{id_1}} onclick="myFunction(this)">
+              <p id={{id_2}} style="display:none">Checkbox is CHECKED!</p></td>
+            <!-- <td>@mdo</td> -->
+          </tr>
+          
+    
+        </tbody>
+        {%endif%}
+        {% endfor %}
+      </table>
+
+</div>
+
+  {% endblock %}

@@ -1,0 +1,96 @@
+
+
+{% extends "my-form.html" %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container">
+  <h2 style="color:blue; text-align:center;" >{{out_data.get('cat')}}</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Package Name</th>
+        <th scope="col">View Details</th>
+        <th scope="col">Last working Date</th>
+        <th scope="col">Conversion</th>
+        <th scope="col">Once Converting</th>
+        <th scope="col">Name</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    
+    {% for i in out_data.output %}
+    <tbody>
+      {% if out_data.test.get(i)[1] == "TRUE" %}
+        <tr style="background:green; color:white;">
+          <th scope="row">{{loop.index}}</th>
+          {% if i.isdigit() %}
+            {% if out_data.get('country') %}
+                <td><a style="color:white"; href="https://apps.apple.com/{{out_data.get('country')}}/app/id{{i}}" target="_blank">{{i}}</a></td>
+              {%else%}
+                <td><a style="color:white"; href="https://apps.apple.com/us/app/id{{i}}" target="_blank">{{i}}</a></td>
+            {% endif %}
+          {%else%}
+            <td><a style="color:white"; href="https://play.google.com/store/apps/details?id={{i}}" target="_blank">{{i}}</a></td>
+          {% endif %}
+          <td><a style="color:white"; href ="details?id={{i}}">View Details</a></td>
+          <td>{{out_data.test.get(i)[0]}}</td>
+          {% if out_data.test.get(i)[1] == "Issue" %}
+            <td ><a style="color:red;" href ="issue?id={{i}}"><b>Issue</b></a></td>
+          {% elif out_data.test.get(i)[1] == "TRUE" %}
+              <td ><b>{{out_data.test.get(i)[1]}}</b></td>
+          {%else%}
+            <td>{{out_data.test.get(i)[1]}}</td>
+          {% endif %}
+          <td>{{out_data.test.get(i)[2]}}</td>
+          <td>{{out_data.test.get(i)[3]}}</td>
+          <input type="checkbox" id="myCheck" onclick="myFunction()">
+          <p id="text" style="display:none">Checkbox is CHECKED!</p>
+          <!-- <td>@mdo</td> -->
+        </tr>
+        {%else%}
+          <tr>
+            <th scope="row">{{loop.index}}</th>
+            {% if i.isdigit() %}
+              {% if out_data.get('country') %}
+                  <td><a href="https://apps.apple.com/{{out_data.get('country')}}/app/id{{i}}" target="_blank">{{i}}</a></td>
+                {%else%}
+                  <td><a href="https://apps.apple.com/us/app/id{{i}}" target="_blank">{{i}}</a></td>
+              {% endif %}
+            {%else%}
+              <td><a href="https://play.google.com/store/apps/details?id={{i}}" target="_blank">{{i}}</a></td>
+            {% endif %}
+            <td><a href ="details?id={{i}}">View Details</a></td>
+            <td>{{out_data.test.get(i)[0]}}</td>
+            {% if out_data.test.get(i)[1] == "Issue" %}
+              <td ><a style="color:red;" href ="issue?id={{i}}"><b>Issue</b></a></td>
+            {% elif out_data.test.get(i)[1] == "TRUE" %}
+                <td ><b style="color:green;" >{{out_data.test.get(i)[1]}}</b></td>
+            {%else%}
+              <td>{{out_data.test.get(i)[1]}}</td>
+            {% endif %}
+            <td>{{out_data.test.get(i)[2]}}</td>
+            <td>{{out_data.test.get(i)[3]}}</td>
+            <!-- <td>@mdo</td> -->
+          </tr>
+        {%endif%}
+
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+
+
+
+
+{% endblock %}

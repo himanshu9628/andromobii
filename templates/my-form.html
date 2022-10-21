@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+    {% block head %}
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% endblock %}
+  <style>
+      .header {
+          position: sticky;
+          top:0;
+      }
+  </style>
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #eb22e4;">
+        <a class="navbar-brand" href="#" class="mt-1 pt-3"><b><h2>App Details</h2></b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{url_for('teamdeatils') }}"><button class="btn btn-success"> working Status</button> <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('deduction') }}"><button class="btn btn-success">Deduction Page</button></a>
+            </li>
+            <li class="nav-item mt-2">
+              <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modelv">
+                Assign
+              </button></li>
+              
+              <div class="modal fade" id="modelv" tabindex="-1" role="dialog" aria-labelledby="h2w" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5  id="h2w" class="modal-title" ></h5>
+                      <button type="button" style="color:red;" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{url_for('get_form_data')}}" method="post">
+                            <div class="input-group">
+                              <br/>
+                            <br/>
+                                      
+                            <label for="exampleInputEmail1"><h2>Enter AppId</h2></label><br/>
+                            <input type="text" name="app_id" id="exampleInputEmail1"  placeholder="Enter AppId">
+                                    
+  
+                            </div>
+                            <h2>Choose Name</h2>
+                            <div class="input-group">
+                                    <select name="Name" class="selectpicker form-control" placeholder="Choose one name">
+                                      <br/>
+                                      <option value="Anirudhh">Anirudhh</option>
+                                      <option value="Aniket">Aniket</option>
+                                      <option value="Jitendra">Jitendra</option>
+                                      <option value="Hitesh">Hitesh</option>
+                                      <option value="Sanil">Sanil</option>
+                                      <option value="Shraddha">Shraddha</option>
+                                      <option value="Praveen">Praveen</option>
+                                      <option value="Shreya">Shreya</option>
+                                      <option value="Deepak">Deepak</option>
+                                      <option value="Sagar">Sagar</option>
+                                      <option value="Shrey">Shrey</option>
+                                    </select>
+                            </div>
+                            <br/>
+                            <button class="btn btn-secondary btn-primary" type="submit" >Submit</button>
+  
+                              </form>
+                              
+                            </div>
+                            <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Close</button>
+                        
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+          <ul>
+            {% if out_data.get('test1')== '1' %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('refresh') }}"><button class="btn btn-primary mt-5"><span class="glyphicon glyphicon-thumbs-up"></span> Success</button></a>
+                    <!-- <button><input type="submit"></button> -->
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('refresh') }}"><button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Refresh</button></a>
+                    <!-- <button><input type="submit"></button> -->
+            </li>
+            {%endif%}
+          </ul>
+        </div>
+      </nav>
+    </div>
+        
+
+    <br>
+    <br>
+    <br>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+      
+    <div id="content">{% block content %}{% endblock %}</div>
+
+
+    <div id="footer">
+      {% block footer %}
+      <!-- &copy; Copyright 2008 by <a href="http://domain.invalid/">you</a>. -->
+
+      {% endblock %}
+    </div>
+
+
+  </body>
+</html>
+

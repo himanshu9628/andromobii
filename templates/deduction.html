@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Test</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <meta http-equiv="refresh" content="30" />
+</head>
+<body>
+
+
+    <br>
+    
+    <div class="container">
+      <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#model12">
+        Assign
+      </button>
+      
+      <div class="modal fade" id="model12" tabindex="-1" role="dialog" aria-labelledby="Model21" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5  id="Model21" class="modal-title" ></h5>
+              <button type="button" style="color:red;" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('get_form_data')}}" method="post">
+                  <h4>Enter Your AppId</h4>
+                  <input type="text" name="app_id" >
+                  <h4>Enter Deduction Reason</h4>
+                  <input type="text" name="reason" >
+                  <h4>Team Name</h4>
+                  <input type="text" name="feedbackby" >
+                  <input type="hidden" name="page" value="deduct">
+                    <br>
+                    <br>
+                    <br/>
+                    <button class="btn btn-secondary btn-primary" type="submit">Submit</button>
+
+                      </form>
+                      
+                    </div>
+                    <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Close</button>
+                
+            </div>
+          </div>
+        </div>
+      </div></td>
+    </div>
+
+    <div class="container">
+    </table>
+        <table class="table header">
+            <thead>
+                <th>Sr</th>
+                <th>Package Name</th>
+                <th>Reason</th>
+                <th>FeedbackBy</th>
+                <th>Remove</th>
+            </thead>
+            <tbody>
+              {% for i in out_data.test %}
+              <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>
+                  {{i}}
+                </td>
+                <td>{{out_data.test[i].get('reason')}}</td>
+                <td>{{out_data.test[i].get('by')}}</td>  
+                {%set b = i+"$"+"deduct"%}
+                <td><a href ="remove?id={{b}}"><button class="btn btn-primary">Remove</button></a></td>              
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+          
+
+
+
+</body>
+</html>

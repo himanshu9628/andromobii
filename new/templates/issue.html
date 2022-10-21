@@ -1,0 +1,51 @@
+
+{% extends "my-form.html" %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <h2 style="color:blue; text-align:center;" >{{out_data.get('package')}}</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Package Name</th>
+
+          <th scope="col">Issue</th>
+          <th scope="col">Issue Date</th>
+          <th scope="col">Issue BY</th>
+        </tr>
+      </thead>
+
+
+
+    {% for i in out_data.get('id') %}
+    <tbody>
+        {%- if i.get('Package_name') -%}
+            <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{i.get('Package_name')}}</td>
+            <td>{{i.get('issue')}}</td>
+            <td>{{i.get('Date')}}</td>
+            <td>{{i.get('Name')}}</td>
+
+            </tr>
+        {%else%}
+
+        <td colspan="5"><h2 style="color:red; text-align:center;">Sorry No Data Found</h2></td>
+        {% endif %}
+        
+  
+      </tbody>
+      {% endfor %}
+
+
+{% endblock %}

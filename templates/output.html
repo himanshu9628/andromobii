@@ -1,0 +1,415 @@
+
+{% extends "my-form.html" %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .important { color: #336699; }
+        td {
+          overflow-x: hidden;
+          overflow-y: hidden;
+          white-space: nowrap;
+          max-width: 150px;
+      }
+
+
+
+    </style>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+
+
+<script type="text/javascript">
+  $(document).ready(function() {       
+    $('#languages').multiselect({
+      nonSelectedText: 'Select Language'
+    });
+    $('#languages').css('font-size',"10px");
+    
+
+  });
+  </script>
+
+
+
+
+
+
+
+<div class="container-fluid ml-5 mr-5">
+  <div class="ml-5 pl-2 mr-5 pr-2" style="min-width: auto; max-width: auto; font-size:larger;" >
+    <h3 class="ml-3 mt-3 mb-3">
+      Filters <a  data-toggle="collapse" href="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
+        +
+      </a>
+
+    </h3>
+    <div class="collapse" id="collapseExample">
+      <div class="card card-body center">
+        <form class="form-signin" method="post" id="register-form" action="{{url_for('get_cat_data')}}">		
+          <div class="row">
+            <div class="col-sm-1"> 
+            </div>
+            <div class="col-sm-5"> 
+            <div class="form-group">
+              <select id="languages" name="input" multiple >						    
+                <option value="Utilities">Utilities</option>
+                <option value="Games">Games</option>		
+                <option value="Tools">Tools</option>
+                <option value="java">Java</option>
+                <option value="c">C</option>
+                <option value="sql">SQL</option>
+                <option value="ruby">Ruby</option>
+                <option value=".net">.Net</option>
+              </select>	
+            </div>
+          </div>
+          </div>	
+          <div class="row">
+            <div class="col-sm-3"> 
+            </div>
+            <div class="col-sm-1"> 
+          <div class="form-group">		
+            <button type="submit" class="btn btn-primary"  id="btn-sbmit" >Submit</button> 
+          </div>  
+        </div>
+        <div class="col-sm-2">   
+          <div class="form-group ">		
+            <a href= "{{url_for('Home')}}" <button type="submit" class="btn btn-primary" id="btn-submit">Reset</button> </a>
+          </div>  
+        </div>
+      </div>   
+        </form>	
+    </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid ml-5 mr-5">
+<div class="card ml-5 pl-2 mr-5 pr-2" style="min-width: auto; max-width: auto;  min-height: 60rem; max-height: 60rem; margin-top: 5px; font-size:larger;" >
+<div class="card-header">App Id deatils</div>
+<div class=" card-body; table-responsive text-nowrap">
+  
+  <table class=" table table-hover" style="overflow-x:auto; overflow-y:auto">
+    <thead class="card-header">
+      <tr >
+        <th style="background:red;" scope="col">#</th>
+        <th scope="col">Package Name</th>
+        <th scope="col">View_Details</th>
+        <th scope="col">Status</th>
+        <th scope="col">Category</th>
+        <th scope="col">Conversion</th>
+        <th scope="col">Tracking</th>
+        <th scope="col">New/Update</th>
+        <th scope="col">Last Date</th>
+        <th scope="col">Last Work</th>
+        <th scope="col">Issue</th>
+        <th scope="col">AssignTO</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    {% for i in out_data.output %}
+    <tbody>
+      {%if out_data.get('test').get(i).get('assign_to') =="zzz" %}
+        {%set assign = 'No One'%}
+      {%else%}
+        {%set assign = out_data.get('test').get(i).get('assign_to') %}
+      {%endif%}
+      {% if out_data.get('test').get(i).get('conversion') == "TRUE" %}
+      <tr style="background:rgb(32, 187, 42); color:white;">
+          <th scope="row">{{loop.index}}</th>
+          {% if i.isdigit() %}
+          {% if out_data.get('test').get(i).get('country') %}
+              <td><a style="color:white; max-width: 250px;"; href="https://apps.apple.com/{{out_data.get('test').get(i).get('country')}}/app/id{{i}}" target="_blank">{{i}}</a></td>
+            {%else%}
+              <td><a style="color:white; max-width: 250px;"; href="https://apps.apple.com/us/app/id{{i}}" target="_blank">{{i}}</a></td>
+          {% endif %}
+        {%else%}
+          {% if out_data.get('test').get(i).get('country') %}
+            <td><a style="color:white; max-width: 250px;"; href="https://play.google.com/store/apps/details?id={{i}}&hl=en&gl={{out_data.get('test').get(i).get('country')}}" target="_blank">{{i}}</a></td>
+          {%else%}
+              <td><a style="color:white; max-width: 250px;"; href="https://play.google.com/store/apps/details?id={{i}}" target="_blank">{{i}}</a></td>
+          {% endif %}
+        {% endif %}
+        {%set view = i%}
+        {%set view1 = view+"_view" %}
+        <td><button type="button"  id={{view1}} data={{i}} class="btn btn-primary" onclick="popitup(this)">
+          view
+        </button>
+        </td>
+          <td>{{out_data.get('test').get(i).get('status')}}</td>
+          <td>{{out_data.get('app_data').get(i)}}</td>
+          <td>{{out_data.get('test').get(i).get('conversion')}}</td>
+          <td>{{out_data.get('test').get(i).get('Tracking')}}</td>
+          <td>{{out_data.get('test').get(i).get('NewORupdate')}}</td>
+          <td>{{out_data.get('test').get(i).get('last_update')}}</td>
+          <td>{{out_data.get('test').get(i).get('Updated_by')}}</td>
+          <td style="overflow-x: auto; word-wrap: break-word;">{{out_data.get('test').get(i).get('issue')}}</td>
+          <td>{{assign}}</td>
+          {%set id_model1 = i.replace('.','')+"model" %}
+          <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target={{"#"+id_model1}}>
+              Assign
+            </button>
+            {%set id_model = i+"model" %}
+            <div class="modal fade" id={{id_model1}} tabindex="-1" role="dialog" aria-labelledby={{id_model}} aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5  id={{id_model}} class="modal-title" ></h5>
+                    <button type="button" style="color:red;" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      {%set id_form = i+"form" %}
+                      {%set id_submit = i+"submit" %}
+                      <form action="{{url_for('get_form_data')}}" method="post">
+                          <div class="input-group">
+                                    <input type="hidden" name="url2" value="{{out_data.get('url')}}">
+                                    <input type="hidden" name="app_id" value="{{i}}">
+
+                          </div>
+                          <h2>Choose Name</h2>
+                          <div class="input-group">
+                                  <select name="Name" class="selectpicker form-control">
+                                    <br/>
+                                    <option value="Anirudhh">Anirudhh</option>
+                                    <option value="Aniket">Aniket</option>
+                                    <option value="Jitendra">Jitendra</option>
+                                    <option value="Hitesh">Hitesh</option>
+                                    <option value="Sanil">Sanil</option>
+                                    <option value="Shraddha">Shraddha</option>
+                                    <option value="Praveen">Praveen</option>
+                                    <option value="Shreya">Shreya</option>
+                                    <option value="Deepak">Deepak</option>
+                                    <option value="Sagar">Sagar</option>
+                                    <option value="Shrey">Shrey</option>
+                                  </select>
+                          </div>
+                          <br/>
+                          <button class="btn btn-secondary btn-primary" type="submit" >Submit</button>
+
+                            </form>
+                            
+                          </div>
+                          <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Close</button>
+                      
+                  </div>
+                </div>
+              </div>
+            </div></td>
+        </tr>
+      {%elif out_data.get('test').get(i).get('once') == "TRUE" %}
+      <tr style="background:rgb(128, 224, 227); color:white;">
+          <th scope="row">{{loop.index}}</th>
+          {% if i.isdigit() %}
+          {% if out_data.get('test').get(i).get('country') %}
+              <td><a style="color:white; max-width: 250px;"; href="https://apps.apple.com/{{out_data.get('test').get(i).get('country')}}/app/id{{i}}" target="_blank">{{i}}</a></td>
+            {%else%}
+              <td><a style="color:white; max-width: 250px;"; href="https://apps.apple.com/us/app/id{{i}}" target="_blank">{{i}}</a></td>
+          {% endif %}
+        {%else%}
+          {% if out_data.get('test').get(i).get('country') %}
+            <td><a style="color:white; max-width: 250px;"; href="https://play.google.com/store/apps/details?id={{i}}&hl=en&gl={{out_data.get('test').get(i).get('country')}}" target="_blank">{{i}}</a></td>
+          {%else%}
+              <td><a style="color:white; max-width: 250px;"; href="https://play.google.com/store/apps/details?id={{i}}" target="_blank">{{i}}</a></td>
+          {% endif %}
+        {% endif %}
+        {%set view = i%}
+        {%set view1 = view+"_view" %}
+        <td><button type="button"  id={{view1}} data={{i}} class="btn btn-primary" onclick="popitup(this)">
+          view
+        </button>
+          <td>{{out_data.get('test').get(i).get('status')}}</td>
+          <td>{{out_data.get('app_data').get(i)}}</td>
+          <td>{{out_data.get('test').get(i).get('conversion')}}</td>
+          <td>{{out_data.get('test').get(i).get('Tracking')}}</td>
+          <td>{{out_data.get('test').get(i).get('NewORupdate')}}</td>
+          <td>{{out_data.get('test').get(i).get('last_update')}}</td>
+          <td>{{out_data.get('test').get(i).get('Updated_by')}}</td>
+          <td style="overflow-x: auto; word-wrap: break-word;">{{out_data.get('test').get(i).get('issue')}}</td>
+          <td>{{assign}}</td>
+          {%set id_model1 = i.replace('.','')+"model" %}
+          <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target={{"#"+id_model1}}>
+              Assign
+            </button>
+            {%set id_model = i+"model" %}
+            <div class="modal fade" id={{id_model1}} tabindex="-1" role="dialog" aria-labelledby={{id_model}} aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5  id={{id_model}} class="modal-title" ></h5>
+                    <button type="button" style="color:red;" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      {%set id_form = i+"form" %}
+                      {%set id_submit = i+"submit" %}
+                      <form action="{{url_for('get_form_data')}}" method="post">
+                          <div class="input-group">
+                                    
+                                    <input type="hidden" name="app_id" value="{{i}}">
+                                    <input type="hidden" name="url2" value="{{out_data.get('url')}}">
+
+                          </div>
+                          <h2>Choose Name</h2>
+                          <div class="input-group">
+                                  <select name="Name" class="selectpicker form-control">
+                                    <br/>
+                                    <option value="Anirudhh">Anirudhh</option>
+                                    <option value="Aniket">Aniket</option>
+                                    <option value="Jitendra">Jitendra</option>
+                                    <option value="Hitesh">Hitesh</option>
+                                    <option value="Sanil">Sanil</option>
+                                    <option value="Shraddha">Shraddha</option>
+                                    <option value="Praveen">Praveen</option>
+                                    <option value="Shreya">Shreya</option>
+                                    <option value="Deepak">Deepak</option>
+                                    <option value="Sagar">Sagar</option>
+                                    <option value="Shrey">Shrey</option>
+                                  </select>
+                          </div>
+                          <br/>
+                          <button class="btn btn-secondary btn-primary" type="submit" >Submit</button>
+
+                            </form>
+                            
+                          </div>
+                          <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Close</button>
+                      
+                  </div>
+                </div>
+              </div>
+            </div></td>
+        </tr>
+      {%else %}
+      <tr style="color:black;">
+          <th scope="row">{{loop.index}}</th>
+          {% if i.isdigit() %}
+          {% if out_data.get('test').get(i).get('country') %}
+              <td><a style="color:black; max-width: 250px;"; href="https://apps.apple.com/{{out_data.get('test').get(i).get('country')}}/app/id{{i}}" target="_blank">{{i}}</a></td>
+            {%else%}
+              <td><a style="color:black; max-width: 250px;"; href="https://apps.apple.com/us/app/id{{i}}" target="_blank">{{i}}</a></td>
+          {% endif %}
+        {%else%}
+          {% if out_data.get('test').get(i).get('country') %}
+            <td><a style="color:black; max-width: 250px;"; href="https://play.google.com/store/apps/details?id={{i}}&hl=en&gl={{out_data.get('test').get(i).get('country')}}" target="_blank">{{i}}</a></td>
+          {%else%}
+              <td><a style="color:black; max-width: 250px;"; href="https://play.google.com/store/apps/details?id={{i}}" target="_blank">{{i}}</a></td>
+          {% endif %}
+        {% endif %}
+        {%set view = i%}
+        {%set view1 = view+"_view" %}
+        <td><button type="button"  id={{view1}} data={{i}} class="btn btn-primary" onclick="popitup(this)">
+          view
+        </button>
+          <td>{{out_data.get('test').get(i).get('status')}}</td>
+          <td>{{out_data.get('app_data').get(i)}}</td>
+          <td>{{out_data.get('test').get(i).get('conversion')}}</td>
+          <td>{{out_data.get('test').get(i).get('Tracking')}}</td>
+          <td>{{out_data.get('test').get(i).get('NewORupdate')}}</td>
+          <td>{{out_data.get('test').get(i).get('last_update')}}</td>
+          <td>{{out_data.get('test').get(i).get('Updated_by')}}</td>
+          <td style="overflow-x: auto; word-wrap: break-word;">{{out_data.get('test').get(i).get('issue')}}</td>
+          <td>{{assign}}</td>
+          {%set id_model1 = i.replace('.','')+"model" %}
+          <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target={{"#"+id_model1}}>
+              Assign
+            </button>
+            {%set id_model = i+"model" %}
+            <div class="modal fade" id={{id_model1}} tabindex="-1" role="dialog" aria-labelledby={{id_model}} aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5  id={{id_model}} class="modal-title" ></h5>
+                    <button type="button" style="color:red;" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      {%set id_form = i+"form" %}
+                      {%set id_submit = i+"submit" %}
+                      <form action="{{url_for('get_form_data')}}" method="post">
+                          <div class="input-group">
+                                    <input type="hidden" name="url2" value="{{out_data.get('url')}}">
+                                    <input type="hidden" name="app_id" value="{{i}}">
+
+                          </div>
+                          <h2>Choose Name</h2>
+                          <div class="input-group">
+                                  <select name="Name" class="selectpicker form-control">
+                                    <br/>
+                                    <option value="Anirudhh">Anirudhh</option>
+                                    <option value="Aniket">Aniket</option>
+                                    <option value="Jitendra">Jitendra</option>
+                                    <option value="Hitesh">Hitesh</option>
+                                    <option value="Sanil">Sanil</option>
+                                    <option value="Shraddha">Shraddha</option>
+                                    <option value="Praveen">Praveen</option>
+                                    <option value="Shreya">Shreya</option>
+                                    <option value="Deepak">Deepak</option>
+                                    <option value="Sagar">Sagar</option>
+                                    <option value="Shrey">Shrey</option>
+                                  </select>
+                          </div>
+                          <br/>
+                          <button class="btn btn-secondary btn-primary" type="submit" >Submit</button>
+
+                            </form>
+                            
+                          </div>
+                          <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Close</button>
+                      
+                  </div>
+                </div>
+              </div>
+            </div></td>
+        </tr>
+        {% endif %}
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+
+
+  function popitup(url) {
+            console.log(url.id)
+            console.log("Hello")
+            url = "https://andromobi.herokuapp.com/details?id="+url.id
+            
+           var newwindow=window.open(url,name,'height=500,width=700'); 
+           
+           setTimeout(function() { newwindow.close();}, 5000);
+
+           if (window.focus) {newwindow.focus()}
+            return false;
+        }
+
+        setTimeout(function(){
+          window.location.reload(1);  
+       }, 3000000);  
+</script>
+
+
+{% endblock %}
+
+
+
+

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Test</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <meta http-equiv="refresh" content="30" />
+</head>
+
+
+   
+    <body>
+
+
+
+
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        
+        <div class="container">
+          <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#model12">
+            Assign
+          </button>
+          
+          <div class="modal fade" id="model12" tabindex="-1" role="dialog" aria-labelledby="Model21" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5  id="Model21" class="modal-title" ></h5>
+                  <button type="button" style="color:red;" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{url_for('get_form_data')}}" method="post">
+                      <h4>Enter Your AppId</h4> <br>
+                      <input type="text" name="app_id" >
+                      <input type="hidden" name="Name" value={{out_data.get('name')}}>
+                      <input type="hidden" name="url" value={{out_data.get('name')}}>
+                        <br>
+                        <br>
+                        <br/>
+                        <button class="btn btn-secondary btn-primary" type="submit" >Submit</button>
+
+                          </form>
+                          
+                        </div>
+                        <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Close</button>
+                    
+                </div>
+              </div>
+            </div>
+          </div></td>
+        </div>
+
+
+        <div class="container">
+        </table>
+            <table class="table header">
+                <thead>
+                    <th>Sr</th>
+                    <th>Package Name</th>
+                    <th>Category</th>
+                    <th>view</th>
+                    <th>Issue</th>
+                    <th>status</th>
+                    <th>Done_Time</th>
+                    <th>AddIssue</th>
+                </thead>
+                <tbody>
+                    <!--Anirudhh-->
+                {% for i in out_data.test %}
+                
+                {%set id_1 = i %}
+                {%set id_3 = id_1+"test" %}
+                
+                {%if i in out_data.get('working') %}
+                {%set check = 'checked' %}
+                {% if out_data.get('test').get(i).get('status') == check  %}
+
+                <tr style="background-color:green; color:aliceblue;"  id = {{id_3}}>
+                  <th scope="row">{{loop.index}}</th>
+                  <td >
+                    {{i}}
+                  </td>
+                  <td>{{out_data.get('app_data').get(i)}}</td>
+
+                        {%set view = i%}
+                        {%set view1 = view+"_view" %}
+                        <td><button type="button"  id={{view1}} data={{i}} class="btn btn-primary" onclick="popitup(this)">
+                          view
+                        </button>
+                        </td>
+                        <td>{{out_data.get('issue_data').get(i).get('Issue')}}</td>
+                        {%set id_2 = id_1+"foo" %}
+                        {%set id_10 = i+"done" %}
+                        <td><input  style="background-color:purple; color:white;" type="button"  id = {{i}} value="Done" onclick="myFunction2(this) ">
+                        </td>
+                        <td id = {{id_10}} >{{out_data.get('test').get(i).get('done_time')}}</td>
+                        {%set id_model1 = i.replace('.','')+"model" %}
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target={{"#"+id_model1}}>
+                            Add
+                          </button>
+                          
+                          {%set id_model = i+"model" %}
+                          <div class="modal fade" id={{id_model1}} tabindex="-1" role="dialog" aria-labelledby={{id_model}} aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5  id={{id_model}} class="modal-title" ></h5>
+                                  <button type="button" style="color:red;" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    {%set id_form = i+"form" %}
+                                    {%set id_submit = i+"submit" %}
+                                    <form action="{{url_for('get_issue_data')}}" method="post">
+                                        <h6 style="color:black;">Enter Your Issue</h6>
+                                        <div class="input-group">
+                                          <input type="hidden" name="app_id" value="{{i}}">
+                                        </div>
+                                            <br/>
+                                        <input type="hidden" name="url" value={{out_data.get('test').get(i).get('name')}}>
+                                        <input type="text" style="color:black;" id={{id_form}} name="name" >
+                                        <br/>
+                                        <br/>
+                                        <button style="background-color:blue; color:white;" type="submit" >Submit</button>
+                                    </form>
+                                
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Close</button>
+                                    
+                                </div>
+                              </div>
+                            </div>
+                          </div></td>
+                    </tr>
+                  {%else%}
+                  <tr style="background-color:green; color:white;"  id = {{id_3}}>
+                  <th scope="row">{{loop.index}}</th>
+                  <td >
+                    {{i}}
+                  </td>
+                  <td>{{out_data.get('app_data').get(i)}}</td>
+
+                        {%set view = i%}
+                        {%set view1 = view+"_view" %}
+                        <td><button type="button"  id={{view1}} data={{i}} class="btn btn-primary" onclick="popitup(this)">
+                          view
+                        </button>
+                        </td>
+                        <td>{{out_data.get('issue_data').get(i).get('Issue')}}</td>
+                        {%set id_2 = id_1+"foo" %}
+                        {%set id_10 = i+"done" %}
+                        <td><input  style="background-color:royalblue; color:white;" type="button"  id = {{i}} value="Done ?" onclick="myFunction(this)">
+                        </td>
+                        <td id = {{id_10}} >{{out_data.get('test').get(i).get('done_time')}}</td>
+                        {%set id_model1 = i.replace('.','')+"model" %}
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target={{"#"+id_model1}}>
+                            Add
+                          </button>
+                          
+                          {%set id_model = i+"model" %}
+                          <div class="modal fade" id={{id_model1}} tabindex="-1" role="dialog" aria-labelledby={{id_model}} aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5  id={{id_model}} class="modal-title" ></h5>
+                                  <button type="button" style="color:red;" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    {%set id_form = i+"form" %}
+                                    {%set id_submit = i+"submit" %}
+                                    <form action="{{url_for('get_issue_data')}}" method="post">
+                                        <h6 style="color:black;">Enter Your Issue</h6>
+                                        <div class="input-group">
+                                          <input type="hidden" name="app_id" value="{{i}}">
+                                        </div>
+                                            <br/>
+                                        <input type="hidden" name="url" value={{out_data.get('test').get(i).get('name')}}>
+                                        <input type="text" style="color:black;" id={{id_form}} name="name" >
+                                        <br/>
+                                        <br/>
+                                        <button style="background-color:blue; color:white;" type="submit" >Submit</button>
+                                    </form>
+                                
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Close</button>
+                                    
+                                </div>
+                              </div>
+                            </div>
+                          </div></td>
+                    </tr>
+                    {%endif%}
+                {%else%}
+                {%set check = 'checked' %}
+                {% if out_data.get('test').get(i).get('status') == check  %}
+
+                <tr   id = {{id_3}}>
+                  <th scope="row">{{loop.index}}</th>
+                  <td >
+                    {{i}}
+                  </td>
+                  <td>{{out_data.get('app_data').get(i)}}</td>
+
+                        {%set view = i%}
+                        {%set view1 = view+"_view" %}
+                        <td><button type="button"  id={{view1}} data={{i}} class="btn btn-primary" onclick="popitup(this)">
+                          view
+                        </button>
+                        </td>
+                        <td>{{out_data.get('issue_data').get(i).get('Issue')}}</td>
+                        {%set id_2 = id_1+"foo" %}
+                        {%set id_10 = i+"done" %}
+                        <td><input  style="background-color:purple; color:white;" type="button"  id = {{i}} value="Done" onclick="myFunction2(this) ">
+                        </td>
+                        <td id = {{id_10}} style="">{{out_data.get('test').get(i).get('done_time')}}</td>
+                        {%set id_model1 = i.replace('.','')+"model" %}
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target={{"#"+id_model1}}>
+                            Add
+                          </button>
+                         
+                          {%set id_model = i+"model" %}
+                          <div class="modal fade" id={{id_model1}} tabindex="-1" role="dialog" aria-labelledby={{id_model}} aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5  id={{id_model}} class="modal-title" ></h5>
+                                  <button type="button" style="color:red;" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    {%set id_form = i+"form" %}
+                                    {%set id_submit = i+"submit" %}
+                                    <form action="{{url_for('get_issue_data')}}" method="post">
+                                        <h6>Enter Your Issue</h6>
+                                        <div class="input-group">
+                                          <input type="hidden" name="app_id" value="{{i}}">
+                                        </div>
+                                            <br/>
+                                        <input type="hidden" name="url" value={{out_data.get('test').get(i).get('name')}}>
+                                        <input type="text" id={{id_form}} name="name" >
+                                        <br/>
+                                        <br/>
+                                        <button style="background-color:blue; color:white;" type="submit" >Submit</button>
+                                    </form>
+                                
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Close</button>
+                                    
+                                </div>
+                              </div>
+                            </div>
+                          </div></td>
+                    </tr>
+                  {%else%}
+                  
+                  <tr style=""  id = {{id_3}}>
+                  <th scope="row">{{loop.index}}</th>
+                  <td >
+                    {{i}}
+                  </td>
+                  <td>{{out_data.get('app_data').get(i)}}</td>
+
+                        {%set view = i%}
+                        {%set view1 = view+"_view" %}
+                        <td><button type="button"  id={{view1}} data={{i}} class="btn btn-primary" onclick="popitup(this)">
+                          view
+                        </button>
+                        </td>
+                        <td>{{out_data.get('issue_data').get(i).get('Issue')}}</td>
+                        {%set id_2 = id_1+"foo" %}
+                        {%set id_10 = i+"done" %}
+                        <td><input  style="background-color:royalblue; color:white;" type="button"  id = {{i}} value="Done ?" onclick="myFunction(this) ">
+                        </td>
+                        <td id = {{id_10}} style="">{{out_data.get('test').get(i).get('done_time')}}</td>
+                        {%set id_model1 = i.replace('.','')+"model" %}
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target={{"#"+id_model1}}>
+                            Add
+                          </button>
+                         
+                          {%set id_model = i+"model" %}
+                          <div class="modal fade" id={{id_model1}} tabindex="-1" role="dialog" aria-labelledby={{id_model}} aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5  id={{id_model}} class="modal-title" ></h5>
+                                  <button type="button" style="color:red;" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    {%set id_form = i+"form" %}
+                                    {%set id_submit = i+"submit" %}
+                                    <form action="{{url_for('get_issue_data')}}" method="post">
+                                        <h6>Enter Your Issue</h6>
+                                        <div class="input-group">
+                                          <input type="hidden" name="app_id" value="{{i}}">
+                                        </div>
+                                            <br/>
+                                        <input type="hidden" name="url" value={{out_data.get('test').get(i).get('name')}}>
+                                        <input type="text" id={{id_form}} name="name" >
+                                        <br/>
+                                        <br/>
+                                        <button style="background-color:blue; color:white;" type="submit" >Submit</button>
+                                    </form>
+                                
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Close</button>
+                                    
+                                </div>
+                              </div>
+                            </div>
+                          </div></td>
+                    </tr>
+                    {%endif%}
+                  {%endif%}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        </div>
+      
+        <script type="text/javascript">    
+          setTimeout(function(){
+            window.location.reload(1);  
+         }, 1200000);    
+            function yourfunction(ele){
+    
+    
+                console.log('hello')
+                console.log(ele)
+            }
+    
+    
+    
+            function myFunction(ele) {
+                var req = new XMLHttpRequest()
+                id = ele.id
+                console.log("hello")
+                console.log(id)
+                var checkBox = document.getElementById(id);
+                var tmp = id
+                id2 = tmp+"foo"
+                id3 = tmp+"test"
+                id10 = tmp+"done"
+                var done_time= document.getElementById(id10);
+                checkBox.value = "Done"
+                checkBox.style.backgroundColor = "purple"
+    
+                var text = document.getElementById(id2);
+                console.log(done_time.innerText)
+                var d = new Date();
+                var t1 = d.toLocaleDateString('en-us', {month:"short"})
+                var t2 = d.toLocaleDateString('en-us', {day:"numeric"})
+                var t3 = t2+"-"+t1
+                console.log(t3)
+                done_time.innerText = t3
+                var test = document.getElementById(id3)
+                
+                req.open('POST', '/datapost',true)
+                req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+                var un = tmp
+                var url = window.location.href
+                var postVars = 'username='+un+'&url='+url+'&time='+t3
+                console.log("url")
+                console.log(postVars)
+                req.send(postVars)
+                text.style.display = "block";
+    
+              }
+            function myFunction2(ele) {
+                console.log("hello112")
+                var req = new XMLHttpRequest()
+                id = ele.id
+                console.log("hello")
+                console.log(id)
+                var checkBox = document.getElementById(id);
+                checkBox.value = "Done ?"
+                checkBox.style.backgroundColor="royalblue"
+                var tmp = id
+                id2 = tmp+"foo"
+                id3 = tmp+"test"
+                id10 = tmp+"done"
+                var done_time= document.getElementById(id10);
+                done_time.innerText = "Not yet"
+      
+                console.log(checkBox)
+                console.log(tmp)
+                console.log(id2)
+                var test = document.getElementById(id3)
+                
+                req.open('POST', '/datapostdelet')
+                req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+                var un = tmp
+                var postVars = 'username='+un
+                req.send(postVars)
+    
+              }
+              function popitup(url) {
+                console.log(url.id)
+                console.log("Hello")
+                url = "https://andromobi.herokuapp.com/details?id="+url.id
+                
+               var newwindow=window.open(url,name,'height=500,width=700'); 
+               
+               setTimeout(function() { newwindow.close();}, 5000);
+    
+               if (window.focus) {newwindow.focus()}
+                return false;
+            }
+            </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+          </body>
