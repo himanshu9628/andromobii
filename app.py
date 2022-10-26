@@ -647,7 +647,7 @@ def get_form_data():
         con.commit()
 
 
-    sql = "('"+l2+"','"+str(a)+"',"+"'"+value+"',"+"'Not yet','No')"
+    sql = "('"+value1+"','"+str(a)+"',"+"'"+value+"',"+"'Not yet','No')"
     print(sql)
     sql = "INSERT INTO teamdetails VALUES {}".format(sql)
     print(sql)
