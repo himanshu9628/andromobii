@@ -1,6 +1,6 @@
 
 
-from unicodedata import name
+# from unicodedata import name
 from dbconnect import get_db_connection as connecting
 import sqlite3
 from support import insert_package as fun2
@@ -285,8 +285,21 @@ def get_update_details():
     que  ="SELECT * FROM 'updatedetails' "
     cur.execute(que)
     row1 = cur.fetchall()
-    # Package_name ,Tracking,NewORupdate,conversion,once,country,last_update,Updated_by
-    # ('com.dreame.reader', 'appsflyer', 'Update', 'FALSE', None, 'CA', '13-Sep', 'hitesh')
+
+
+    cur2 = con.cursor()
+    que2  ="SELECT * FROM 'once' "
+    cur2.execute(que2)
+    row2 = cur2.fetchall()
+    # # Package_name ,Tracking,NewORupdate,conversion,once,country,last_update,Updated_by
+    # # ('com.dreame.reader', 'appsflyer', 'Update', 'FALSE', None, 'CA', '13-Sep', 'hitesh')
+
+    temp = {}
+    for r in row2:
+        # print(r[0].strip())
+        temp[r[0].strip()] = r[1]
+
+    # print(temp)
     dic = {}
     for raw in row1:
         dic[raw[0]] = {}
@@ -300,10 +313,11 @@ def get_update_details():
             dic[raw[0]]['conversion'] = raw[3]
         except:
             dic[raw[0]]['conversion'] = None
+        # print(temp.get(raw[0]))
         try:
-            dic[raw[0]]['once'] = raw[4]
+            dic[raw[0]]['once'] = temp[raw[0]]
         except:
-            dic[raw[0]]['once'] = None
+            dic[raw[0]]['once'] = temp.get(raw[0])
         try:
             dic[raw[0]]['country'] = raw[5]
         except:
@@ -316,11 +330,11 @@ def get_update_details():
             dic[raw[0]]['Updated_by'] = raw[7]
         except:
             dic[raw[0]]['Updated_by'] = None
-    
+    # print(dic)
     return dic
 
 
-
+# get_update_details()
 
 def get_issue_details():
     con = connecting()
