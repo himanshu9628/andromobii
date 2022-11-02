@@ -18,6 +18,7 @@ def updated():
     issue_dicts  = df_issue.to_dict('records')
     new_list = []
     issue_list = []
+    dic1= {}
     # print(dicts)
     for i in dicts:
         # print(i)
@@ -27,6 +28,24 @@ def updated():
             status = 'FALSE'
         # print(i['conversion status '])
         tmp = {"Tracking":i.get('Tracking'),"Package_name":i.get('Application ID'),"New_update":i.get('New/Update'),"conversion":status, 'once':i['conversion status '], 'country':i.get('Country'),'last_update':i.get('Last Updated'),'Updated_by':i.get('Code Writer')}
+
+        if str(i.get('Application ID')) == 'nan' or '-' in str(i.get('Application ID'))  or '/' in str(i.get('Application ID'))   or ' ' in str(i.get('Application ID')):
+            # print(i.get('Package_name'))
+            pass
+        else:
+            if len(i.get('Application ID')) <6 :
+                # if ser.search(regex, i.get('Package_name')) :
+                #     # print(i.get('Package_name'))
+                #     pass
+                # else:
+                #     pass
+                pass
+            else:
+                if not dic1.get(i.get('Application ID')):
+                    if i.get('conversion status ') == True:
+                        # print(i.get('Application ID'))
+                        # print(i.get('conversion status '))
+                        dic1[i.get('Application ID')] = 'True'
         new_list.append(tmp)
 
 
@@ -34,7 +53,7 @@ def updated():
         tmp = {"Package_name":i.get('Package_name'),"issue":i.get('Issue'),'Name':i.get('Name'),'Date':i.get('Date')}
         issue_list.append(tmp)
 
-    return new_list,issue_list
+    return new_list,issue_list,dic1
 
 
 
@@ -43,11 +62,12 @@ def updated():
 
 def refresh():
 
-    updated_list,issue_list = updated()
+    updated_list,issue_list,dic1= updated()
 
     conn = sqlite3.connect('project1.db')
     conn.execute("create table IF NOT EXISTS updatedetails (Package_name TEXT  ,Tracking TEXT NOT NULL,NewORupdate TEXT,conversion TEXT,once TEXT,country TEXT,last_update TEXT, Updated_by TEXT )")  
     conn.execute("create table IF NOT EXISTS issueeApp (Package_name TEXT  ,issue TEXT)")  
+    conn.execute("create table IF NOT EXISTS once (Package_name TEXT  ,once TEXT)")  
     # d = []
     with sqlite3.connect("project1.db") as con: 
 
@@ -76,12 +96,21 @@ def refresh():
                     con.commit()
 
     # print(d)
+    # with sqlite3.connect("project1.db") as con:  
+    #     # con.execute('DELETE FROM issueeApp')
+    #     con.commit()
+    #     for i in issue_list:
+    #         cur = con.cursor() 
+    #         cur.execute("INSERT into issueeApp (Package_name,issue) values (?,?)",(i.get('Package_name'),i.get('issue')))  
+    #         con.commit()
+
+    # print(d)
     with sqlite3.connect("project1.db") as con:  
-        con.execute('DELETE FROM issueeApp')
+        # con.execute('DELETE FROM once')
         con.commit()
-        for i in issue_list:
+        for i in dic1:
             cur = con.cursor() 
-            cur.execute("INSERT into issueeApp (Package_name,issue) values (?,?)",(i.get('Package_name'),i.get('issue')))  
+            cur.execute("INSERT into once (Package_name,once) values (?,?)",(i,dic1.get(i)))  
             con.commit()
     
     print("successful Done ........................")
