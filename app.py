@@ -2,6 +2,7 @@
 
 
 import sqlite3
+# kjnk
 # from turtle import update
 import appDetails
 # import imp
