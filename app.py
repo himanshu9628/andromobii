@@ -586,9 +586,9 @@ def get_form_data():
             appid = request.form.get('app_id')
             url = request.form.get('url')
             url2 = request.form.get('url2')
-    print("$"*1000)
-    print(url2)
-    print("$"*1000)
+#     print("$"*1000)
+#     print(url2)
+#     print("$"*1000)
     con = get_db_connection()
     if request.form.get('page') == 'deduct':
         li = request.form['app_id']
