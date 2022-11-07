@@ -10,7 +10,7 @@ def get_db_connection():
     conn.execute("create table IF NOT EXISTS donedetails (PackageId TEXT , done_by TEXT, done_time TEXT)")  
     conn.execute("create table IF NOT EXISTS deduction (PackageId TEXT , reason TEXT, feedback_by TEXT)")  
     conn.execute("create table IF NOT EXISTS once (Package_name TEXT  ,once TEXT)")
-
+    conn.execute("create table IF NOT EXISTS dailyissueeApp (Package_name TEXT  ,issue TEXT ,name TEXT)")  
     # conn.execute('DELETE FROM teamdetails')
     # conn.commit()
     return conn

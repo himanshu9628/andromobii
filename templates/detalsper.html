@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Test</title>
+  <title>SeeDetails</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -132,9 +132,56 @@
 <br>
 <br>  
 {% endfor %}
+
+<br>
+<br>
+<h2 class="card-header bg-success">issue App Details</h2>
+    {% for x in out_data.get('li3') %}
+  <div class="row">
+    {% for y in x %}
+    <div class="col-sm-4">
+      <div class="card" style="min-width: 37rem; max-width: 37rem;  min-height: 35rem; max-height: 35rem; margin-top: 5px;">
+        <div class="card-header bg-dark">
+          <h5 style="color:aliceblue;">{{y}}</h5>
+        </div>
+        <div class="card-body table-responsive">
+          
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">AppId</th>
+                <th scope="col">Done_Time</th>
+              </tr>
+            </thead>
+            {% for i in out_data.test3.get(y) %}
+            <tbody>
+
+              <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{i.get('appid')}}</td>
+                <td>{{i.get('issue')}}</td>
+
+                
+              </tr>
+
+              {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+  </div>
+
+<br>
+<br>  
+{% endfor %}
 </div>
 
-<script>
+<script type="text/javascript">
   setTimeout(function(){
     window.location.reload(1);  
  }, 1200000);  

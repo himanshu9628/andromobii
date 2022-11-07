@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Test</title>
+    <title>Home Page</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -79,6 +79,7 @@
                                       <option value="Deepak">Deepak</option>
                                       <option value="Sagar">Sagar</option>
                                       <option value="Shrey">Shrey</option>
+                                      <option value="Raju">Raju</option>
                                     </select>
                             </div>
                             <br/>
@@ -94,8 +95,55 @@
                   </div>
                 </div>
               </div>
+            </li>&nbsp;&nbsp;
+            <li class="nav-item mt-2">
+              <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#imodel">
+                Add Issue
+              </button>
+             
+              
+              <div class="modal fade" id="imodel" tabindex="-1" role="dialog" aria-labelledby="imodel1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5  id="imodel1" class="modal-title" ></h5>
+                      <button type="button" style="color:red;" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <form action="{{url_for('get_issue_data')}}" method="post">
+                            <h6>Enter Your Issue</h6>
+                            <div class="input-group">
+                              <h4>Enter AppId</h4>
+                              <input type="text" name="app_id" >
+                            </div>
+                                <br/>
+                            <div class="input-group">
+                              <h4>Enter Issue</h4>
+                              <input type="text" name="name" >
+                            </div>
+                                <br/>
+                            <input type="hidden" name="url" value="Home">
+                            
+                            <br/>
+                            <br/>
+                            <button style="background-color:blue; color:white;" type="submit" >Submit</button>
+                        </form>
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Close</button>
+                        
+                    </div>
+                  </div>
+                </div>
+              </div>
             </li>
-
+            <li class="nav-item active">
+              <a class="nav-link" href="{{url_for('downloadFile') }}"><button class="btn btn-success">Download</button> <span class="sr-only">(current)</span></a>
+            </li>
           </ul>
           <ul>
             {% if out_data.get('test1')== '1' %}

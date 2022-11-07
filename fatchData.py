@@ -171,8 +171,28 @@ def get_individul_data():
         else:
             rmp = {"appid":z[0],'done':z[3]}
             dic2[z[2]].append(rmp)
-    
-    return dic,dic2
+
+    que2  ="SELECT * FROM 'dailyissueeApp' "
+    cur.execute(que2)
+    row3 = cur.fetchall()
+    dic3 = {}
+    # r2= []
+    for z in row3:
+        # print(i)
+
+        if not dic3.get(z[2]):
+            dic3[z[2]] = []
+            rmp = {"appid":z[0],'issue':z[1]}
+            if z[0] not in [j.get('appid') for i in dic3 for j in dic3.get(i)]:
+                dic3[z[2]].append(rmp)
+        else:
+            rmp = {"appid":z[0],'issue':z[1]}
+            if z[0] not in [j.get('appid') for i in dic3 for j in dic3.get(i)]:
+                dic3[z[2]].append(rmp)
+    # print(dic3)
+    # print(dic2)
+    return dic,dic2,dic3
+# get_individul_data()
 
 def example():
     print("IN example")
@@ -192,14 +212,19 @@ def deletedata():
     values = ', '.join(map(str, r))
     print(values)
     print("*"*100)
-    sql = "INSERT INTO donedetails VALUES {}".format(values)
-    # print(r)
-    cur = con.cursor() 
-    cur.execute(sql)  
-    con.commit()
+    if len(row2) > 0:
+        sql = "INSERT INTO donedetails VALUES {}".format(values)
+        # print(r)
+        cur = con.cursor() 
+        cur.execute(sql)  
+        con.commit()
     sql = "DELETE FROM 'teamdetails' WHERE checked = 'checked' "
     cur = con.cursor() 
     cur.execute(sql)  
+    con.commit()
+    sql2 = "DELETE FROM 'dailyissueeApp' "
+    cur = con.cursor() 
+    cur.execute(sql2)  
     con.commit()
 # deletedata()
 
